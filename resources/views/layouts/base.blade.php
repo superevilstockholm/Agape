@@ -1,8 +1,12 @@
 @extends('App')
 @section('layout')
-@include('components.navbar_component')
+@if (data_get($meta, 'show_navbar', true))
+    @include('components.navbar_component')
+@endif
 <main>
     @yield('content')
 </main>
-@include('components.footer_component')
+@if (data_get($meta, 'show_footer', true))
+    @include('components.footer_component')
+@endif
 @endsection

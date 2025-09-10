@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Auth
+Route::get('login', function () {
+    return view('pages.auth.login', [
+        'meta' => [
+            'show_navbar' => false,
+            'show_footer' => false
+        ]
+    ]);
+})->name('login');
+
 Route::get('/', function () {
     return view('pages.index');
 })->name('index');

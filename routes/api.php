@@ -1,8 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Auth
+use App\Http\Controllers\AuthController;
+
+// Master Data Controllers
+use App\Http\Controllers\MasterData\NewsController;
+
+// Auth
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);
+
+// Public
+Route::apiResource('news', NewsController::class)->only(['index', 'show']);
+
+// Protected
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('news', NewsController::class)->parameters([
+        'news' => 'news'
+    ])->only('store', 'update', 'destroy');
+});

@@ -4,20 +4,20 @@
             <div class="row justify-content-end align-items-center py-2">
                 <div class="col-auto d-flex gap-3" style="font-size: 0.9rem;">
                     <ul class="list-inline py-0 my-0">
-                        <li class="list-inline-item"><a class="nav-link" href="#"><i class="bi bi-whatsapp"></i>
+                        <li class="list-inline-item"><a class="nav-link" href="https://wa.me/+6285817203458" target="_blank"><i class="bi bi-whatsapp"></i>
                                 Whatsapp</a></li>
-                        <li class="list-inline-item"><a class="nav-link" href="#"><i class="bi bi-phone"></i>
+                        <li class="list-inline-item"><a class="nav-link" href="tel:085817203458" target="_blank"><i class="bi bi-phone"></i>
                                 Telephone</a></li>
-                        <li class="list-inline-item"><a class="nav-link" href="#"><i class="bi bi-envelope"></i>
+                        <li class="list-inline-item"><a class="nav-link" href="mailto:balilombok11@gmail.com" target="_blank"><i class="bi bi-envelope"></i>
                                 Email</a></li>
                     </ul>
                     <span>|</span>
                     <ul class="list-inline py-0 my-0">
-                        <li class="list-inline-item"><a class="nav-link" href="#"><i
+                        <li class="list-inline-item"><a class="nav-link" href="https://www.facebook.com/p/Agape-Hijau-Abadi-100085181980166/" target="_blank"><i
                                     class="bi bi-facebook"></i></a></li>
                         <li class="list-inline-item"><a class="nav-link" href="#"><i
                                     class="bi bi-twitter"></i></a></li>
-                        <li class="list-inline-item"><a class="nav-link" href="#"><i
+                        <li class="list-inline-item"><a class="nav-link" href="https://www.instagram.com/agapehijauabadi/" target="_blank"><i
                                     class="bi bi-instagram"></i></a></li>
                         <li class="list-inline-item"><a class="nav-link" href="#"><i
                                     class="bi bi-youtube"></i></a></li>

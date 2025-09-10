@@ -53,8 +53,8 @@
                     <img loading="lazy" class="img-fluid w-100 object-fit-cover rounded"
                         style="max-height: 450px; object-position: center;"
                         src="https://huggingface.co/front/assets/homepage/modalities-dark.svg" alt="">
-                </div>
-                <div class="d-none d-md-block col-md-1"></div>
+                    </div>
+                    <div class="d-none d-md-block col-md-1"></div>
                 <div class="col-md-6 col-12">
                     <span class="border border-success text-success rounded-pill px-3 py-1" style="font-size: 0.9rem;">About
                         Us</span>
@@ -127,6 +127,7 @@
             </div>
         </div>
     </section>
+    {{-- Gallery Section --}}
     <section class="mb-5" id="gallery">
         <div class="container">
             <div class="row text-center mb-4">
@@ -158,6 +159,42 @@
                 <div class="item">
                     <img src="https://sph.edu/wp-content/uploads/2022/02/sph-studentLife-studentLeadership-side-v1.jpg"
                         class="img-fluid rounded" alt="Gallery 5">
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- Vision & Mission Section --}}
+    <section class="mb-5" id="vision-mission">
+        <div class="container">
+            <div class="row text-center mb-4">
+                <div class="col-12">
+                    <h2 class="fw-bold mt-3 display-6">Visi & <span class="text-success">Misi</span></h2>
+                </div>
+            </div>
+            <div class="row align-items-center flex-md-row-reverse">
+                <div class="col-md-6 col-12">
+                    <img loading="lazy" class="img-fluid w-100 object-fit-cover rounded"
+                        style="max-height: 450px; object-position: center;"
+                        src="https://sph.edu/wp-content/uploads/2022/02/header-sph-phhDormitory-v1.jpg" alt="">
+                </div>
+                <div class="col-md-6 col-12 mb-4 mb-md-0">
+                    <div class="d-flex flex-column gap-3">
+                        <span class="border border-success text-success rounded-pill px-3 py-1 ms-0 me-auto" style="font-size: 0.9rem;">
+                            Our Vision & Mission
+                        </span>
+                        <div class="d-flex flex-column gap-1">
+                            <h4 class="fw-bold text-success">Vision</h4>
+                            <p class="text-muted">
+                                Showing love to Indonesian children, underprivileged and neglected families.
+                            </p>
+                            <h4 class="fw-bold text-success">Mission</h4>
+                            <ol class="text-muted mb-0 ps-3">
+                                <li class="mb-2">Supporting regional development in disaster recovery.</li>
+                                <li class="mb-2">Supporting efforts to create jobs for underdeveloped areas.</li>
+                                <li>Providing education and health services to underprivileged communities.</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

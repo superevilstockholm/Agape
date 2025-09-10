@@ -13,11 +13,13 @@
                         {{-- Social Media --}}
                         <h4 class="fs-5 mb-4"><span class="text-success">Follow</span> us on:</h4>
                         <ul class="list-unstyled d-flex flex-column gap-2">
-                            <li class="list-inline-item"><a class="nav-link" href="#"><i
-                                        class="bi bi-facebook"></i> Facebook</a></li>
+                            <li class="list-inline-item"><a class="nav-link"
+                                    href="https://www.facebook.com/p/Agape-Hijau-Abadi-100085181980166/"
+                                    target="_blank"><i class="bi bi-facebook"></i> Facebook</a></li>
                             <li class="list-inline-item"><a class="nav-link" href="#"><i
                                         class="bi bi-twitter"></i> Twitter</a></li>
-                            <li class="list-inline-item"><a class="nav-link" href="#"><i
+                            <li class="list-inline-item"><a class="nav-link"
+                                    href="https://www.instagram.com/agapehijauabadi/" target="_blank"><i
                                         class="bi bi-instagram"></i> Instagram</a></li>
                             <li class="list-inline-item"><a class="nav-link" href="#"><i
                                         class="bi bi-youtube"></i> YouTube</a></li>
@@ -27,12 +29,13 @@
                         {{-- Contacts --}}
                         <h4 class="fs-5 mb-4">Our <span class="text-success">Contacts</span>:</h4>
                         <ul class="list-unstyled d-flex flex-column gap-2">
-                            <li class="list-inline-item"><a class="nav-link" href="#"><i
-                                        class="bi bi-whatsapp"></i> Whatsapp</a></li>
-                            <li class="list-inline-item"><a class="nav-link" href="#"><i class="bi bi-phone"></i>
+                            <li class="list-inline-item"><a class="nav-link" href="https://wa.me/+6285817203458"
+                                    target="_blank"><i class="bi bi-whatsapp"></i> Whatsapp</a></li>
+                            <li class="list-inline-item"><a class="nav-link" href="tel:085817203458" target="_blank"><i
+                                        class="bi bi-phone"></i>
                                     Telephone</a></li>
-                            <li class="list-inline-item"><a class="nav-link" href="#"><i
-                                        class="bi bi-envelope"></i> Email</a></li>
+                            <li class="list-inline-item"><a class="nav-link" href="mailto:balilombok11@gmail.com"
+                                    target="_blank"><i class="bi bi-envelope"></i> Email</a></li>
                         </ul>
                     </div>
                 </div>

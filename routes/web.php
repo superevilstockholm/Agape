@@ -16,7 +16,7 @@ Route::prefix('institution')->group(function () {
     Route::get('serang', function () {
         return view('pages.institution.serang');
     })->name('institution.serang');
-});
+})->name('institution');
 
 Route::get('news', function () {
     return view('pages.news');
@@ -25,3 +25,14 @@ Route::get('news', function () {
 Route::get('gallery', function () {
     return view('pages.gallery');
 })->name('gallery');
+
+Route::middleware(['auth.sanctum.cookie'])->group(function () {
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', function () {
+            return view('pages.dashboard.index');
+        })->name('dashboard.index');
+        Route::get('news', function () {
+            return view('pages.dashboard.news.index');
+        })->name('dashboard.news.index');
+    })->name('dashboard');
+});

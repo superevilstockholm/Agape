@@ -1,4 +1,4 @@
-@extends('App')
+@extends('layouts.base')
 @section('title', 'Yayasan Agape Hijau Abadi')
 @section('content')
     {{-- Hero Section --}}
@@ -33,7 +33,7 @@
                 <span class="carousel-control-next-icon px-0 mx-0"></span>
             </button>
         </div>
-        <div class="container h-100 z-2 position-absoulute top-0 start-0">
+        <div class="container h-100 z-2 top-0 start-0">
             <div class="row justify-content-center align-items-center h-100">
                 <div class="col-md-8 col-12 text-center text-white">
                     <h1 class="display-4 fw-bold text-center">Yayasan <span class="text-success">Agape</span> Hijau Abadi
@@ -97,8 +97,8 @@
             </div>
             <div class="row g-md-4">
                 <div class="col-md-4 col-12">
-                    <div class="card h-100 border-0">
-                        <div class="card-body text-center">
+                    <div class="card h-100 border-0" style="box-shadow: 0 0 0 0 !important;">
+                        <div class="card-body text-center border-0" style="box-shadow: 0 0 0 0 !important;">
                             <i class="bi bi-mortarboard-fill text-success fs-1 mb-3"></i>
                             <h5 class="fw-bold">Free Education</h5>
                             <p class="text-muted">Providing free education for children who need opportunities to grow and
@@ -107,8 +107,8 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
-                    <div class="card h-100 border-0">
-                        <div class="card-body text-center">
+                    <div class="card h-100 border-0" style="box-shadow: 0 0 0 0 !important;">
+                        <div class="card-body text-center border-0" style="box-shadow: 0 0 0 0 !important;">
                             <i class="bi bi-heart-fill text-success fs-1 mb-3"></i>
                             <h5 class="fw-bold">Scholarship Programs</h5>
                             <p class="text-muted">Supporting talented students with scholarships to pursue their dreams.</p>
@@ -116,8 +116,8 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
-                    <div class="card h-100 border-0">
-                        <div class="card-body text-center">
+                    <div class="card h-100 border-0" style="box-shadow: 0 0 0 0 !important;">
+                        <div class="card-body text-center border-0" style="box-shadow: 0 0 0 0 !important;">
                             <i class="bi bi-people-fill text-success fs-1 mb-3"></i>
                             <h5 class="fw-bold">Community Relief</h5>
                             <p class="text-muted">Helping communities in times of natural disasters and social needs.</p>
@@ -168,16 +168,17 @@
         <div class="container">
             <div class="row text-center mb-4">
                 <div class="col-12">
-                    <h2 class="fw-bold mt-3 display-6">Visi & <span class="text-success">Misi</span></h2>
+                    <h2 class="fw-bold mt-3 display-6">Vision & <span class="text-success">Mission</span></h2>
                 </div>
             </div>
             <div class="row align-items-center flex-md-row-reverse">
-                <div class="col-md-6 col-12">
+                <div class="col-md-6 col-12 mb-4 mb-md-0">
                     <img loading="lazy" class="img-fluid w-100 object-fit-cover rounded"
                         style="max-height: 450px; object-position: center;"
                         src="https://sph.edu/wp-content/uploads/2022/02/header-sph-phhDormitory-v1.jpg" alt="">
                 </div>
-                <div class="col-md-6 col-12 mb-4 mb-md-0">
+                <div class="col-md-1 d-none d-md-block"></div>
+                <div class="col-md-5 col-12 mb-4 mb-md-0">
                     <div class="d-flex flex-column gap-3">
                         <span class="border border-success text-success rounded-pill px-3 py-1 ms-0 me-auto" style="font-size: 0.9rem;">
                             Our Vision & Mission
@@ -188,7 +189,7 @@
                                 Showing love to Indonesian children, underprivileged and neglected families.
                             </p>
                             <h4 class="fw-bold text-success">Mission</h4>
-                            <ol class="text-muted mb-0 ps-3">
+                            <ol class="text-muted mb-0 ps-3" style="list-style: decimal;">
                                 <li class="mb-2">Supporting regional development in disaster recovery.</li>
                                 <li class="mb-2">Supporting efforts to create jobs for underdeveloped areas.</li>
                                 <li>Providing education and health services to underprivileged communities.</li>
@@ -202,7 +203,7 @@
     <style>
         @media (min-width: 768px) {
             #programs {
-                height: 500px;
+                height: 480px;
             }
         }
 

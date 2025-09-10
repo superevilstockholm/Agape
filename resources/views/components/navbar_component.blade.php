@@ -29,7 +29,7 @@
     <nav class="navbar navbar-expand-md">
         <div class="container">
             <a class="navbar-brand fw-medium text-muted d-flex align-items-center gap-2" href="{{ route('index') }}">
-                <img src="{{ asset('static/img/logo.png') }}" height="50" alt="Logo Yayasan Agape">
+                <img src="{{ asset('static/img/logo.png') }}" style="height: 45px !important;" alt="Logo Yayasan Agape">
                 Yayasan <span class="text-success">Agape</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"

@@ -37,7 +37,7 @@ class NewsController extends Controller
     {
         try {
             $limit = $request->query('limit', 10);
-            $query = News::with('user');
+            $query = News::with('user:id,name');
             $allowedTypes = ['title', 'content', 'slug'];
             if ($request->has('type') && $request->has('search') && in_array($request->type, $allowedTypes)) {
                 $query->where($request->type, 'like', '%' . $request->search . '%');
@@ -79,7 +79,7 @@ class NewsController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'successfully create news',
-                'data' => $news->load('user')
+                'data' => $news->load('user:id,name')
             ], 201);
         } catch (Exception $e) {
             return response()->json([
@@ -98,7 +98,7 @@ class NewsController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'successfully get detail news',
-                'data' => $news->load('user'),
+                'data' => $news->load('user:id,name'),
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -115,19 +115,19 @@ class NewsController extends Controller
     {
         try {
             $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
-                'user_id' => 'required|exists:users,id',
+                'title' => 'sometimes|string|max:255',
+                'content' => 'sometimes|string',
+                'user_id' => 'sometimes|exists:users,id',
                 'slug' => 'nullable|string|max:255',
             ]);
-            if (empty($validated['slug'])) {
+            if (array_key_exists('title', $validated) && empty($validated['slug'])) {
                 $validated['slug'] = $this->generateSlug($validated['title'], $news->id);
             }
             $news->update($validated);
             return response()->json([
                 'status' => true,
                 'message' => 'successfully update news',
-                'data' => $news->load('user')
+                'data' => $news->load('user:id,name')
             ]);
         } catch (Exception $e) {
             return response()->json([

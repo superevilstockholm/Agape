@@ -10,13 +10,15 @@ use App\Http\Controllers\MasterData\NewsController;
 
 // Auth
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
 
 // Public
 Route::apiResource('news', NewsController::class)->only(['index', 'show']);
 
 // Protected
 Route::middleware(['auth:sanctum'])->group(function () {
+    // Auth
+    Route::post('logout', [AuthController::class, 'logout']);
+    // Master Data
     Route::apiResource('news', NewsController::class)->parameters([
         'news' => 'news'
     ])->only('store', 'update', 'destroy');

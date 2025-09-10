@@ -16,7 +16,7 @@ class AuthController extends Controller
         try {
             $validated = $request->validate([
                 'email' => 'required|email|max:255',
-                'password' => 'required|string|max:255',
+                'password' => 'required|string|min:8|max:255',
             ]);
 
             $user = User::where('email', $validated['email'])->first();
@@ -32,7 +32,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Login successful.',
-                'data' => $user,
+                'data' => $user->only(['id', 'name', 'email']),
             ], 200)->withCookie(
                 'auth_token', // cookie name
                 $token, // cookie value

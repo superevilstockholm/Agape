@@ -36,7 +36,7 @@ class AuthController extends Controller
             ], 200)->withCookie(
                 'auth_token', // cookie name
                 $token, // cookie value
-                now()->addDays(30), // cookie expiration (30 days)
+                60 * 24 * 30, // cookie expiration (30 days)
                 '/', // cookie path
                 null, // cookie domain
                 false, // cookie secure

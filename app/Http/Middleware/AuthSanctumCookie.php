@@ -37,6 +37,6 @@ class AuthSanctumCookie
         if ($request->expectsJson()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-        return redirect()->route('index');
+        return redirect()->route('login');
     }
 }

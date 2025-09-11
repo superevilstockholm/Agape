@@ -12,7 +12,7 @@
                     </div>
                     <div class="card-body border-0 px-4 py-4">
                         <h1 class="text-muted fs-4 text-center mb-4 fw-medium"><span class="text-success">Log</span> In</h1>
-                        <form method="POST">
+                        <form method="POST" id="login-form">
                             <div class="mb-3">
                                 <label for="UserEmail" class="form-label text-muted" style="font-size: 0.9rem;">Email
                                     address</label>
@@ -27,11 +27,58 @@
                                     class="form-control border-0 border-bottom rounded-0" id="UserPassword"
                                     placeholder="**********" required>
                             </div>
-                            <button class="btn btn-success w-100">Login</button>
+                            <button class="btn btn-success w-100" type="submit">Login</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script>
+        const form = document.getElementById('login-form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const response = await axios.post('/api/login', {
+                    email: e.target.email.value,
+                    password: e.target.password.value
+                });
+                if (response.data.status === true) {
+                    await Swal.fire({
+                        title: 'Success',
+                        text: response.data.message,
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    window.location.href = '/dashboard';
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.data.message,
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            } catch (error) {
+                if (error.response?.status === 401) {
+                    Swal.fire({
+                        title: 'Unauthorized',
+                        text: error.response.data.message,
+                        icon: 'error',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat melakukan login',
+                        icon: 'error',
+                        showConfirmButton: true
+                    });
+                }
+            }
+        });
+    </script>
 @endsection

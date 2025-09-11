@@ -29,7 +29,7 @@
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="profile.html">My Profile</a>
                 <a class="dropdown-item" href="settings.html">Settings</a>
-                <a class="dropdown-item" href="index.html">Logout</a>
+                <button class="dropdown-item logout-button" role="button">Logout</button>
             </div>
         </li>
     </ul>
@@ -41,9 +41,58 @@
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="profile.html">My Profile</a>
             <a class="dropdown-item" href="settings.html">Settings</a>
-            <a class="dropdown-item" href="index.html">Logout</a>
+            <button class="dropdown-item logout-button" role="button">Logout</button>
         </div>
     </div>
     <!-- /Mobile Menu -->
 </div>
 <!-- /Header -->
+<script>
+    const logoutButton = document.querySelector('.logout-button');
+    logoutButton.addEventListener('click', async function() {
+        const token = getCookie('auth_token');
+        await axios.post('/api/logout', {}, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
+            if (response.data.status === true) {
+                Swal.fire({
+                    title: 'Success',
+                    text: response.data.message,
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: response.data.message,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            window.location.href = '/login';
+        }).catch((error) => {
+            if (error.response?.status === 401) {
+                Swal.fire({
+                    title: 'Unauthorized',
+                    text: error.response.data.message,
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: "Terjadi kesalahan saat melakukan logout",
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+            window.location.href = '/login';
+        })
+    });
+</script>

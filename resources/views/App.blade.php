@@ -50,12 +50,18 @@
     </style>
 </head>
 <body class="bg-white">
+    {{-- Global JS --}}
+    <script src="{{ asset('static/js/global-script.js') }}"></script>
     <!-- jQuery + Owl Carousel JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    {{-- Sweetalert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('layout')
     {{-- Bootstrap --}}
     <script src="{{ asset('static/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- Axios --}}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {{-- Start Template Assets --}}
     <!-- Slimscroll JS -->
     <script src="{{ asset('static/template_assets/js/jquery.slimscroll.min.js') }}"></script>

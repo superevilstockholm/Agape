@@ -66,4 +66,19 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function isLoggedIn(): JsonResponse
+    {
+        try {
+            return response()->json([
+                'status' => true,
+                'message' => 'User is logged in.',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

@@ -100,7 +100,7 @@
                     <div class="card h-100 border-0" style="box-shadow: 0 0 0 0 !important;">
                         <div class="card-body text-center border-0" style="box-shadow: 0 0 0 0 !important;">
                             <i class="bi bi-mortarboard-fill text-success fs-1 mb-3"></i>
-                            <h5 class="fw-bold">Free Education</h5>
+                            <h5 class="fw-bold fs-5 mb-2">Free Education</h5>
                             <p class="text-muted">Providing free education for children who need opportunities to grow and
                                 learn.</p>
                         </div>
@@ -110,7 +110,7 @@
                     <div class="card h-100 border-0" style="box-shadow: 0 0 0 0 !important;">
                         <div class="card-body text-center border-0" style="box-shadow: 0 0 0 0 !important;">
                             <i class="bi bi-heart-fill text-success fs-1 mb-3"></i>
-                            <h5 class="fw-bold">Scholarship Programs</h5>
+                            <h5 class="fw-bold fs-5 mb-2">Scholarship Programs</h5>
                             <p class="text-muted">Supporting talented students with scholarships to pursue their dreams.</p>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                     <div class="card h-100 border-0" style="box-shadow: 0 0 0 0 !important;">
                         <div class="card-body text-center border-0" style="box-shadow: 0 0 0 0 !important;">
                             <i class="bi bi-people-fill text-success fs-1 mb-3"></i>
-                            <h5 class="fw-bold">Community Relief</h5>
+                            <h5 class="fw-bold fs-5 mb-2">Community Relief</h5>
                             <p class="text-muted">Helping communities in times of natural disasters and social needs.</p>
                         </div>
                     </div>

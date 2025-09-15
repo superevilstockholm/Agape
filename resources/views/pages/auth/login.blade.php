@@ -1,6 +1,20 @@
 @extends('layouts.base')
 @section('title', 'Login - Yayasan Agape Hijau Abadi')
 @section('content')
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const token = getCookie('auth_token');
+            await axios.get('/api/is-logged-in', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then((response) => {
+                if (response.data.status === true) {
+                    window.location.href = '/dashboard';
+                }
+            });
+        })
+    </script>
     <div class="container vh-100 py-0 my-0">
         <div class="row w-100 h-100 p-0 m-0 align-items-center justify-content-center">
             <div class="col-lg-5 col-md-6 col-12">
@@ -27,7 +41,7 @@
                                     class="form-control border-0 border-bottom rounded-0" id="UserPassword"
                                     placeholder="**********" required>
                             </div>
-                            <button class="btn btn-success w-100" type="submit">Login</button>
+                            <button class="btn btn-success w-100" type="submit" id="login-btn">Login</button>
                         </form>
                     </div>
                 </div>
@@ -36,8 +50,10 @@
     </div>
     <script>
         const form = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
+            loginBtn.disabled = true;
             try {
                 const response = await axios.post('/api/login', {
                     email: e.target.email.value,
@@ -73,11 +89,13 @@
                 } else {
                     Swal.fire({
                         title: 'Error',
-                        text: 'Terjadi kesalahan saat melakukan login',
+                        text: 'An error occurred while logging in',
                         icon: 'error',
                         showConfirmButton: true
                     });
                 }
+            } finally {
+                loginBtn.disabled = false;
             }
         });
     </script>

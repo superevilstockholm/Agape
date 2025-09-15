@@ -42,7 +42,7 @@ Route::middleware(['auth.sanctum.cookie'])->group(function () {
             return view('pages.dashboard.index');
         })->name('dashboard.index');
         Route::get('news', function () {
-            return view('pages.dashboard.news.index');
+            return view('pages.dashboard.news');
         })->name('dashboard.news.index');
     })->name('dashboard');
 });

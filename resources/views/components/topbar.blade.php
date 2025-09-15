@@ -3,10 +3,12 @@
     <!-- Logo -->
     <div class="header-left">
         <a href="{{ route('dashboard.index') }}" class="logo">
-            <img src="{{ asset('static/img/logo.png') }}" width="40" height="40" alt="Logo Yayasan Agape Hijau Abadi">
+            <img src="{{ asset('static/img/logo.png') }}" width="40" height="40"
+                alt="Logo Yayasan Agape Hijau Abadi">
         </a>
         <a href="{{ route('dashboard.index') }}" class="logo2">
-            <img src="{{ asset('static/img/logo.png') }}" width="40" height="40" alt="Logo Yayasan Agape Hijau Abadi">
+            <img src="{{ asset('static/img/logo.png') }}" width="40" height="40"
+                alt="Logo Yayasan Agape Hijau Abadi">
         </a>
     </div>
     <!-- /Logo -->
@@ -22,7 +24,8 @@
     <ul class="nav user-menu">
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <span class="user-img"><img src="{{ asset('static/template_assets/img/profiles/avatar-21.jpg') }}" alt="">
+                <span class="user-img"><img src="{{ asset('static/img/no_image_placeholder.png') }}"
+                        alt="">
                     <span class="status online"></span></span>
                 <span>{{ auth()->user()->name ?? 'Guest' }}</span>
             </a>
@@ -41,58 +44,58 @@
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="profile.html">My Profile</a>
             <a class="dropdown-item" href="settings.html">Settings</a>
-            <button class="dropdown-item logout-button" role="button">Logout</button>
+            <a class="dropdown-item logout-button" role="button">Logout</a>
         </div>
     </div>
     <!-- /Mobile Menu -->
 </div>
 <!-- /Header -->
 <script>
-    const logoutButton = document.querySelector('.logout-button');
-    logoutButton.addEventListener('click', async function() {
-        const token = getCookie('auth_token');
-        await axios.post('/api/logout', {}, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((response) => {
-            if (response.data.status === true) {
+    const logoutButtons = document.querySelectorAll('.logout-button');
+    logoutButtons.forEach(button => {
+        button.addEventListener('click', async function() {
+            const confirmation = await Swal.fire({
+                title: 'Logout Confirmation',
+                text: 'Are you sure you want to logout?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Logout',
+                cancelButtonText: 'Cancel',
+                showLoaderOnConfirm: true,
+                customClass: {
+                    confirmButton: 'btn btn-secondary me-2',
+                    cancelButton: 'btn btn-success'
+                },
+                buttonsStyling: false,
+                preConfirm: () => true
+            });
+            if (!confirmation.isConfirmed) return;
+            const token = getCookie('auth_token');
+            try {
+                const response = await axios.post('/api/logout', {}, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 Swal.fire({
-                    title: 'Success',
+                    title: response.data.status ? 'Success' : 'Error',
                     text: response.data.message,
-                    icon: 'success',
+                    icon: response.data.status ? 'success' : 'error',
                     showConfirmButton: false,
                     timer: 1500
                 });
-            } else {
+                window.location.href = '/login';
+            } catch (error) {
                 Swal.fire({
-                    title: 'Error',
-                    text: response.data.message,
+                    title: error.response?.status === 401 ? 'Unauthorized' : 'Error',
+                    text: error.response?.data?.message ??
+                        "An error occurred while logging out",
                     icon: 'error',
                     showConfirmButton: false,
                     timer: 1500
                 });
+                window.location.href = '/login';
             }
-            window.location.href = '/login';
-        }).catch((error) => {
-            if (error.response?.status === 401) {
-                Swal.fire({
-                    title: 'Unauthorized',
-                    text: error.response.data.message,
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: "Terjadi kesalahan saat melakukan logout",
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-            }
-            window.location.href = '/login';
-        })
+        });
     });
 </script>

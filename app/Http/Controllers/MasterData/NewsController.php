@@ -103,10 +103,10 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $slug): JsonResponse
+    public function show(int $id): JsonResponse
     {
         try {
-            $news = News::with('user:id,name')->where('slug', $slug)->firstOrFail();
+            $news = News::with('user:id,name')->where('id', $id)->firstOrFail();
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully get news detail',
@@ -134,11 +134,11 @@ class NewsController extends Controller
             $validated = $request->validate([
                 'title' => 'sometimes|string|max:255',
                 'content' => 'sometimes|string',
-                'image'   => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'user_id' => 'sometimes|exists:users,id',
                 'slug' => 'nullable|string|max:255',
             ]);
-            if (array_key_exists('title', $validated) && empty($validated['slug'])) {
+            if ($request->filled('title') && !$request->filled('slug')) {
                 $validated['slug'] = $this->generateSlug($validated['title'], $news->id);
             }
             if ($request->hasFile('image')) {
@@ -151,8 +151,8 @@ class NewsController extends Controller
             $news->update($validated);
             return response()->json([
                 'status' => true,
-                'message' => 'successfully updated news',
-                'data' => $news->fresh()->load('user:id,name')
+                'message' => 'Successfully updated news',
+                'data' => $news->refresh()->load('user:id,name'),
             ]);
         } catch (Exception $e) {
             return response()->json([

@@ -24,7 +24,7 @@
     <ul class="nav user-menu">
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <span class="user-img"><img src="{{ asset('static/img/no_image_placeholder.png') }}"
+                <span class="user-img"><img src="{{ auth()->user()->getUrlProfilePictureAttribute() }}"
                         alt="">
                     <span class="status online"></span></span>
                 <span>{{ auth()->user()->name ?? 'Guest' }}</span>

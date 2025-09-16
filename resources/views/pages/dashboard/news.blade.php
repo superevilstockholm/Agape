@@ -1,5 +1,5 @@
 @extends('layouts.Dashboard')
-@section('title', 'Dashboard - News Index')
+@section('title', 'Dashboard - News')
 @section('content')
     <div class="row mb-3 justify-content-md-between align-items-md-center">
         <div class="col-md-6 col-12">
@@ -109,8 +109,8 @@
     </div>
     <!-- Modal Create Berita -->
     <div class="modal fade" id="newsCreateModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-        aria-labelledby="newsCreateModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    aria-labelledby="newsCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content shadow-sm border-0 rounded-3">
                 <div class="modal-header bg-light border-bottom-0">
                     <h5 class="modal-title fw-bold" id="newsCreateModalLabel">Create News</h5>
@@ -143,6 +143,47 @@
                             <textarea id="news-content-editor" name="news-content"></textarea>
                         </div>
                         <button type="submit" class="btn btn-success">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Edit News -->
+    <div class="modal fade" id="newsEditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="newsEditModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content shadow-sm border-0 rounded-3">
+                <div class="modal-header bg-light border-bottom-0">
+                    <h5 class="modal-title fw-bold" id="newsEditModalLabel">Edit News</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="editNewsForm">
+                        <input type="hidden" id="edit-news-id">
+                        <div class="mb-3">
+                            <label for="edit-news-image" class="form-label">Image</label>
+                            <div class="position-relative d-inline-block w-100" style="height: 300px;">
+                                <img id="edit-news-image-preview" src="{{ asset('static/img/no_image_placeholder.png') }}"
+                                    alt="Preview" class="w-100 h-100 object-fit-cover rounded shadow-sm border">
+                                <input type="file" id="edit-news-image" name="image" accept="image/*"
+                                    class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-news-title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="edit-news-title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-news-user" class="form-label">Author</label>
+                            <select id="edit-news-user" name="user_id" class="form-select" required>
+                                <option value="">-- Select Author --</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-news-content" class="form-label">Content</label>
+                            <textarea id="edit-news-content-editor" name="content"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning text-white">Update</button>
                     </form>
                 </div>
             </div>
@@ -304,8 +345,8 @@
                         <td>${new Date(item.created_at).toLocaleDateString()}</td>
                         <td>${new Date(item.updated_at).toLocaleDateString()}</td>
                         <td>
-                            <button class="btn btn-sm btn-info show-news text-white" data-id="${item.slug}" data-bs-toggle="modal" data-bs-target="#newsShowModal">Detail</button>
-                            <button class="btn btn-sm btn-warning text-white" data-id="${item.id}">Edit</button>
+                            <button class="btn btn-sm btn-info show-news text-white" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#newsShowModal">Detail</button>
+                            <button class="btn btn-sm btn-warning text-white" data-id="${item.id}" data-bs-toggle="modal" data-bs-target="#newsEditModal">Edit</button>
                             <button class="btn btn-sm btn-danger text-white delete-news" data-id="${item.id}">Delete</button>
                         </td>
                     </tr>
@@ -329,7 +370,7 @@
                 }
             }
             $(document).on('click', '.show-news', async function() {
-                const slug = $(this).data('id');
+                const id = $(this).data('id');
                 $('#newsShowModalLabel').text('Loading...');
                 $('#newsAuthor').text('');
                 $('#newsCreatedAt').text('');
@@ -337,7 +378,7 @@
                 $('#newsContent').html('<p class="text-center text-secondary">Loading content...</p>');
                 $('#newsImage').attr('src', '{{ asset('static/img/no_image_placeholder.png') }}');
                 try {
-                    const res = await axios.get(`/api/master-data/news/${slug}`, {
+                    const res = await axios.get(`/api/master-data/news/${id}`, {
                         headers: {
                             'Accept': 'application/json'
                         }
@@ -397,6 +438,102 @@
                 currentLimit = this.value;
                 currentPage = 1;
                 loadNews(currentPage, currentLimit);
+            });
+
+            let editEditorInstance;
+            ClassicEditor
+                .create(document.querySelector('#edit-news-content-editor'))
+                .then(editor => editEditorInstance = editor);
+            const editImageInput = document.getElementById('edit-news-image');
+            const editPreviewImage = document.getElementById('edit-news-image-preview');
+            const editPlaceholderImage = "{{ asset('static/img/no_image_placeholder.png') }}";
+            document.getElementById('newsEditModal').addEventListener('hidden.bs.modal', function () {
+                editNewsForm.reset();
+                editPreviewImage.src = editPlaceholderImage;
+                if (editEditorInstance) editEditorInstance.setData('');
+            });
+            editImageInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    editPreviewImage.src = URL.createObjectURL(file);
+                } else {
+                    editPreviewImage.src = editPlaceholderImage;
+                }
+            });
+            $(document).on('click', 'table .btn-warning', async function () {
+                const id = $(this).data('id');
+                if (!id) return;
+                try {
+                    const res = await axios.get(`/api/master-data/news/${id}`, {
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    const news = res.data.data;
+
+                    $('#edit-news-id').val(news.id);
+                    $('#edit-news-title').val(news.title);
+                    editEditorInstance.setData(news.content ?? '');
+                    editPreviewImage.src = news.image_url ?? editPlaceholderImage;
+
+                    await loadUsersEdit(news.user?.id);
+
+                    $('#newsEditModal').modal('show');
+                } catch (err) {
+                    console.error('Gagal memuat berita', err);
+                    Swal.fire('Gagal', 'Tidak dapat memuat data berita', 'error');
+                }
+            });
+            async function loadUsersEdit(selectedId = null) {
+                try {
+                    const res = await axios.get('/api/master-data/users?limit=all', {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + getCookie('auth_token')
+                        }
+                    });
+                    const select = document.getElementById('edit-news-user');
+                    select.innerHTML = '<option value="">-- Select Author --</option>';
+                    if (res.data.status && res.data.data.length) {
+                        res.data.data.forEach(user => {
+                            const opt = document.createElement('option');
+                            opt.value = user.id;
+                            opt.textContent = user.name;
+                            if (selectedId && selectedId == user.id) opt.selected = true;
+                            select.appendChild(opt);
+                        });
+                    }
+                } catch (err) {
+                    console.error('Gagal memuat user', err);
+                }
+            }
+            editNewsForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const id = document.getElementById('edit-news-id').value;
+                try {
+                    const formData = new FormData();
+                    formData.append('_method', 'PUT');
+                    formData.append('title', document.getElementById('edit-news-title').value);
+                    formData.append('content', editEditorInstance.getData());
+                    formData.append('user_id', document.getElementById('edit-news-user').value);
+                    if (editImageInput.files[0]) {
+                        formData.append('image', editImageInput.files[0]);
+                    }
+                    const response = await axios.post(`/api/master-data/news/${id}`, formData, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + getCookie('auth_token'),
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+
+                    if (response.data.status === true) {
+                        $('#newsEditModal').modal('hide');
+                        Swal.fire('Berhasil', 'Berita berhasil diperbarui!', 'success');
+                        loadNews(currentPage, currentLimit);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire('Gagal', 'Terjadi kesalahan saat mengupdate berita', 'error');
+                }
             });
         });
     </script>

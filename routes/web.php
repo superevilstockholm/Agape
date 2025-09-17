@@ -36,6 +36,7 @@ Route::get('gallery', function () {
     return view('pages.gallery');
 })->name('gallery');
 
+// Protected
 Route::middleware(['auth.sanctum.cookie'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::get('/', function () {
@@ -43,6 +44,9 @@ Route::middleware(['auth.sanctum.cookie'])->group(function () {
         })->name('dashboard.index');
         Route::get('news', function () {
             return view('pages.dashboard.news');
-        })->name('dashboard.news.index');
+        })->name('dashboard.news');
+        Route::get('users', function () {
+            return view('pages.dashboard.users');
+        })->name('dashboard.users');
     })->name('dashboard');
 });

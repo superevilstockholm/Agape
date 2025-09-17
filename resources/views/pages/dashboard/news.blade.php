@@ -3,7 +3,7 @@
 @section('content')
     <div class="row mb-3 justify-content-md-between align-items-md-center">
         <div class="col-md-6 col-12">
-            <h3 class="page-title mb-2 mb-md-1">News Data</h3>
+            <h3 class="page-title mb-2 mb-md-1 fw-semibold">News Data</h3>
             <ul class="breadcrumb mb-2 mb-md-0">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Dashboard</a></li>
                 <li class="breadcrumb-item active">News</li>
@@ -83,112 +83,11 @@
         </div>
     </div>
     <!-- Modal Detail Berita -->
-    <div class="modal fade" id="newsShowModal" tabindex="-1" aria-labelledby="newsShowModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-bottom-0">
-                    <h5 class="modal-title fw-bold" id="newsShowModalLabel">Loading...</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="text-center mb-3">
-                        <img id="newsImage" src="{{ asset('static/img/no_image_placeholder.png') }}" alt="News Image"
-                            class="img-fluid w-100 object-fit-cover rounded shadow-sm"
-                            style="max-height:300px; object-position: center;">
-                    </div>
-                    <div class="mb-3">
-                        <span class="badge bg-primary me-2" id="newsAuthor"></span>
-                        <span class="badge bg-secondary" id="newsCreatedAt"></span>
-                        <span class="badge bg-secondary" id="newsUpdatedAt"></span>
-                    </div>
-                    <hr>
-                    <div id="newsContent" class="fs-6 text-muted"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('components.news.show')
     <!-- Modal Create Berita -->
-    <div class="modal fade" id="newsCreateModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-    aria-labelledby="newsCreateModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-bottom-0">
-                    <h5 class="modal-title fw-bold" id="newsCreateModalLabel">Create News</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form id="createNewsForm">
-                        <div class="mb-3">
-                            <label for="news-image" class="form-label">Image</label>
-                            <div class="position-relative d-inline-block w-100" style="height: 300px;">
-                                <img id="news-image-preview" src="{{ asset('static/img/no_image_placeholder.png') }}"
-                                    alt="Preview" class="w-100 h-100 object-fit-cover rounded shadow-sm border">
-                                <input type="file" id="news-image" name="image" accept="image/*"
-                                    class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer"
-                                    style="cursor: pointer;">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="news-title" name="title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="news-user" class="form-label">Author</label>
-                            <select id="news-user" name="user_id" class="form-select" required>
-                                <option value="">-- Select Author --</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Content</label>
-                            <textarea id="news-content-editor" name="news-content"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-success">Create</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('components.news.create')
     <!-- Modal Edit News -->
-    <div class="modal fade" id="newsEditModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-        aria-labelledby="newsEditModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-bottom-0">
-                    <h5 class="modal-title fw-bold" id="newsEditModalLabel">Edit News</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <form id="editNewsForm">
-                        <input type="hidden" id="edit-news-id">
-                        <div class="mb-3">
-                            <label for="edit-news-image" class="form-label">Image</label>
-                            <div class="position-relative d-inline-block w-100" style="height: 300px;">
-                                <img id="edit-news-image-preview" src="{{ asset('static/img/no_image_placeholder.png') }}"
-                                    alt="Preview" class="w-100 h-100 object-fit-cover rounded shadow-sm border">
-                                <input type="file" id="edit-news-image" name="image" accept="image/*"
-                                    class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer">
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-news-title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="edit-news-title" name="title" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-news-user" class="form-label">Author</label>
-                            <select id="edit-news-user" name="user_id" class="form-select" required>
-                                <option value="">-- Select Author --</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="edit-news-content" class="form-label">Content</label>
-                            <textarea id="edit-news-content-editor" name="content"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-warning text-white">Update</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('components.news.edit')
     <script>
         $(document).ready(function() {
             let editorInstance;
@@ -439,7 +338,6 @@
                 currentPage = 1;
                 loadNews(currentPage, currentLimit);
             });
-
             let editEditorInstance;
             ClassicEditor
                 .create(document.querySelector('#edit-news-content-editor'))
@@ -468,14 +366,11 @@
                         headers: { 'Accept': 'application/json' }
                     });
                     const news = res.data.data;
-
                     $('#edit-news-id').val(news.id);
                     $('#edit-news-title').val(news.title);
                     editEditorInstance.setData(news.content ?? '');
                     editPreviewImage.src = news.image_url ?? editPlaceholderImage;
-
                     await loadUsersEdit(news.user?.id);
-
                     $('#newsEditModal').modal('show');
                 } catch (err) {
                     console.error('Gagal memuat berita', err);
@@ -524,7 +419,6 @@
                             'Content-Type': 'multipart/form-data'
                         }
                     });
-
                     if (response.data.status === true) {
                         $('#newsEditModal').modal('hide');
                         Swal.fire('Berhasil', 'Berita berhasil diperbarui!', 'success');

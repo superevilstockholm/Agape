@@ -7,15 +7,17 @@
             data-bs-ride="carousel">
             <div class="carousel-inner w-100 h-100">
                 <div class="carousel-item active w-100 h-100">
-                    <img loading="lazy" src="https://images3.alphacoders.com/118/1184187.jpg" class="d-block w-100 h-100 object-fit-cover"
-                        style="object-position: center;" alt="Slide 1">
+                    <img loading="lazy" src="https://images3.alphacoders.com/118/1184187.jpg"
+                        class="d-block w-100 h-100 object-fit-cover" style="object-position: center;" alt="Slide 1">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img loading="lazy" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1350&q=80"
+                    <img loading="lazy"
+                        src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1350&q=80"
                         class="d-block w-100 h-100 object-fit-cover" style="object-position: center;" alt="Slide 2">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img loading="lazy" src="https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1350&q=80"
+                    <img loading="lazy"
+                        src="https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1350&q=80"
                         class="d-block w-100 h-100 object-fit-cover"
                         style="object-position: center; -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7)); filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
                         alt="Slide 3">
@@ -53,8 +55,8 @@
                     <img loading="lazy" class="img-fluid w-100 object-fit-cover rounded"
                         style="max-height: 450px; object-position: center;"
                         src="https://huggingface.co/front/assets/homepage/modalities-dark.svg" alt="">
-                    </div>
-                    <div class="d-none d-md-block col-md-1"></div>
+                </div>
+                <div class="d-none d-md-block col-md-1"></div>
                 <div class="col-md-6 col-12">
                     <span class="border border-success text-success rounded-pill px-3 py-1" style="font-size: 0.9rem;">About
                         Us</span>
@@ -76,8 +78,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <img loading="lazy" class="img-fluid w-100 rounded shadown-sm object-fit-cover" style="max-height: 500px;"
-                        src="https://sph.edu/wp-content/uploads/2022/02/sph-studentLife-studentLeadership-top-v1.jpg" alt="">
+                    <img loading="lazy" class="img-fluid w-100 rounded shadown-sm object-fit-cover"
+                        style="max-height: 500px;"
+                        src="https://sph.edu/wp-content/uploads/2022/02/sph-studentLife-studentLeadership-top-v1.jpg"
+                        alt="">
                 </div>
             </div>
         </div>
@@ -139,7 +143,7 @@
                     <p class="text-muted">Snapshots from our education, scholarship, and community relief programs.</p>
                 </div>
             </div>
-            <div class="owl-carousel owl-theme">
+            <div class="owl-carousel owl-theme" id="gallery-carousel">
                 <div class="item">
                     <img src="https://sph.edu/wp-content/uploads/2021/08/sph-home-img-02.jpg" class="img-fluid rounded"
                         alt="Gallery 1">
@@ -180,7 +184,8 @@
                 <div class="col-md-1 d-none d-md-block"></div>
                 <div class="col-md-5 col-12 mb-4 mb-md-0">
                     <div class="d-flex flex-column gap-3">
-                        <span class="border border-success text-success rounded-pill px-3 py-1 ms-0 me-auto" style="font-size: 0.9rem;">
+                        <span class="border border-success text-success rounded-pill px-3 py-1 ms-0 me-auto"
+                            style="font-size: 0.9rem;">
                             Our Vision & Mission
                         </span>
                         <div class="d-flex flex-column gap-1">
@@ -200,24 +205,101 @@
             </div>
         </div>
     </section>
-    <style>
-        @media (min-width: 768px) {
-            #programs {
-                height: 480px;
-            }
+    {{-- News Section --}}
+    <section class="mb-5" id="news">
+        <div class="container">
+            <div class="row text-center mb-4">
+                <div class="col-12">
+                    <span class="border border-success text-success rounded-pill px-3 py-1" style="font-size: 0.9rem;">
+                        Latest News
+                    </span>
+                    <h2 class="fw-bold mt-3 display-6">Our <span class="text-success">News</span></h2>
+                    <p class="text-muted">Stay updated with the latest activities, programs, and initiatives.</p>
+                </div>
+            </div>
+            <div class="owl-carousel owl-theme" id="news-carousel"></div>
+        </div>
+    </section>
+    <script>
+        // News Carousel
+        function equalizeCardHeights() {
+            const cards = document.querySelectorAll('#news-carousel .card');
+            let maxHeight = 0;
+
+            // reset dulu
+            cards.forEach(card => {
+                card.style.height = "auto";
+                maxHeight = Math.max(maxHeight, card.offsetHeight);
+            });
+
+            // set semua card ke tinggi maksimum
+            cards.forEach(card => {
+                card.style.height = maxHeight + "px";
+            });
         }
 
-        #gallery .owl-carousel .item img {
-            width: 100%;
-            height: 400px;
-            /* atur sesuai kebutuhan, misal 250px */
-            object-fit: cover;
-            object-position: center;
-        }
-    </style>
-    <script>
-        $(document).ready(function() {
-            $(".owl-carousel").owlCarousel({
+        document.addEventListener("DOMContentLoaded", async function () {
+            try {
+                const newestNews = await axios.get('/api/master-data/news?limit=9', {
+                    headers: { 'Accept': 'application/json' }
+                });
+                const newsCarousel = document.getElementById('news-carousel');
+                console.log("Response:", newestNews.data);
+
+                if (newestNews.data.status && Array.isArray(newestNews.data.data.data)) {
+                    let data = newestNews.data.data.data;
+                    if (data.length > 9) data = data.slice(0, 9);
+
+                    data.forEach(news => {
+                        const item = document.createElement('div');
+                        item.classList.add('item');
+                        item.innerHTML = `
+                            <div class="card h-100 border-0 shadow-sm d-flex flex-column">
+                                <img src="${news.image_url || '/static/img/no_image_placeholder.png'}"
+                                    class="card-img-top"
+                                    style="height:350px; object-fit:cover"
+                                    alt="${news.title}">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="fw-bold">${news.title}</h5>
+                                    <p class="text-muted small mb-0 flex-grow-1">
+                                        ${(news.content || "").replace(/<[^>]+>/g, "").substring(0, 120)}...
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        newsCarousel.appendChild(item);
+                    });
+
+                    console.log("Init carousel…");
+                    $("#news-carousel").owlCarousel({
+                        loop: true,
+                        margin: 15,
+                        nav: false,
+                        dots: false,
+                        autoplay: true,
+                        autoplayTimeout: 2500,
+                        responsive: {
+                            0: { items: 1 },
+                            576: { items: 2 },
+                            992: { items: 3 }
+                        }
+                    });
+
+                    // panggil equalizer setelah carousel selesai inisialisasi
+                    $("#news-carousel").on('initialized.owl.carousel resized.owl.carousel refreshed.owl.carousel', function () {
+                        setTimeout(equalizeCardHeights, 100);
+                    });
+
+                } else {
+                    console.warn("Data kosong atau format tidak sesuai:", newestNews.data);
+                }
+            } catch (err) {
+                console.error("Error load news:", err);
+            }
+        });
+        // Gallery Carousel
+        document.addEventListener("DOMContentLoaded", function () {
+            $("#gallery-carousel").owlCarousel({
                 loop: true,
                 margin: 15,
                 nav: false,
@@ -225,17 +307,30 @@
                 autoplay: true,
                 autoplayTimeout: 2500,
                 responsive: {
-                    0: {
-                        items: 1
-                    },
-                    576: {
-                        items: 2
-                    },
-                    992: {
-                        items: 3
-                    }
+                0: { items: 1 },
+                576: { items: 2 },
+                992: { items: 3 }
                 }
             });
         });
     </script>
+    <style>
+        @media (min-width: 768px) {
+            #programs {
+                height: 480px;
+            }
+        }
+        #gallery .owl-carousel .item img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            object-position: center;
+        }
+        .card .text-muted {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;   /* tampilkan max 3 baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
 @endsection

@@ -48,5 +48,8 @@ Route::middleware(['auth.sanctum.cookie'])->group(function () {
         Route::get('users', function () {
             return view('pages.dashboard.users');
         })->name('dashboard.users');
+        Route::get('profile', function () {
+            return view('pages.dashboard.profile');
+        })->name('dashboard.profile');
     })->name('dashboard');
 });

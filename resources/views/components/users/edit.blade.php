@@ -31,7 +31,7 @@
                         <input type="password" class="form-control" id="edit-password" name="password"
                             placeholder="Leave blank if unchanged">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Update</button>
+                    <button type="submit" class="btn btn-success w-100">Update</button>
                 </form>
             </div>
         </div>

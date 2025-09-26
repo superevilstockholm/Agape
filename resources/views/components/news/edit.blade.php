@@ -32,7 +32,7 @@
                         <label for="edit-news-content" class="form-label">Content</label>
                         <textarea id="edit-news-content-editor" name="content"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-warning text-white">Update</button>
+                    <button type="submit" class="btn btn-success text-white">Update</button>
                 </form>
             </div>
         </div>

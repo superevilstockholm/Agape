@@ -52,7 +52,9 @@ class NewsController extends Controller
                     $query->where($request->type, 'like', '%' . $request->search . '%');
                 }
             }
-            $news = ($limit === 'all') ? $query->get() : $query->paginate((int)$limit);
+            $news = ($limit === 'all')
+                ? $query->orderBy('created_at', 'desc')->get()
+                : $query->orderBy('created_at', 'desc')->paginate((int)$limit);
             return response()->json([
                 'status' => true,
                 'message' => 'successfully get news list',

@@ -41,7 +41,7 @@
                 <span>{{ auth()->user()->name ?? 'Guest' }}</span>
             </a>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="profile.html">My Profile</a>
+                <a class="dropdown-item" href="{{ route('dashboard.profile') }}">My Profile</a>
                 <a class="dropdown-item" href="settings.html">Settings</a>
                 <button class="dropdown-item logout-button" role="button">Logout</button>
             </div>
@@ -53,7 +53,7 @@
         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i
                 class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="profile.html">My Profile</a>
+            <a class="dropdown-item" href="{{ route('dashboard.profile') }}">My Profile</a>
             <a class="dropdown-item" href="settings.html">Settings</a>
             <a class="dropdown-item logout-button" role="button">Logout</a>
         </div>

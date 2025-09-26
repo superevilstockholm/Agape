@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="@yield('seo_description', 'Yayasan Agape Hijau Abadi')">
     <title>@yield('title', 'Yayasan Agape Hijau Abadi')</title>
+    {{-- Favicon --}}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.svg') }}">
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,11 +51,14 @@
             font-family: 'Inter', Helvetica, sans-serif;
         }
         :root {
-            --bs-success: #699834 !important;
-            --bs-success-rgb: 105, 152, 52 !important;
+            --bs-success: #45ba53 !important;
+            --bs-success-rgb: 69, 186, 83 !important;
         }
         .bg-success {
             background-color: var(--bs-success) !important;
+        }
+        .text-success {
+            color: var(--bs-success) !important;
         }
     </style>
 </head>

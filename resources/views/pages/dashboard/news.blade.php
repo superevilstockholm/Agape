@@ -83,11 +83,11 @@
         </div>
     </div>
     <!-- Modal Detail Berita -->
-    @include('components.news.show')
+    <x-news.show />
     <!-- Modal Create Berita -->
-    @include('components.news.create')
+    <x-news.create />
     <!-- Modal Edit News -->
-    @include('components.news.edit')
+    <x-news.edit />
     <script>
         $(document).ready(function() {
             let editorInstance;

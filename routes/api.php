@@ -33,4 +33,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
             'news' => 'news'
         ])->only('store', 'update', 'destroy');
     });
+    // User
+    Route::prefix('user')->group(function () {
+        Route::get('profile', [UserController::class, 'userProfile']);
+        Route::put('profile', [UserController::class, 'editUserProfile']);
+    });
 });

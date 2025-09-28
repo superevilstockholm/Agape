@@ -7,20 +7,16 @@
             data-bs-ride="carousel">
             <div class="carousel-inner w-100 h-100">
                 <div class="carousel-item active w-100 h-100">
-                    <img loading="lazy" src="https://images3.alphacoders.com/118/1184187.jpg"
+                    <img loading="lazy" src="{{ asset('static/img/backgrounds/hero-section-1.jpg') }}"
                         class="d-block w-100 h-100 object-fit-cover" style="object-position: center;" alt="Slide 1">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img loading="lazy"
-                        src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1350&q=80"
+                    <img loading="lazy" src="{{ asset('static/img/backgrounds/hero-section-2.jpg') }}"
                         class="d-block w-100 h-100 object-fit-cover" style="object-position: center;" alt="Slide 2">
                 </div>
                 <div class="carousel-item w-100 h-100">
-                    <img loading="lazy"
-                        src="https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1350&q=80"
-                        class="d-block w-100 h-100 object-fit-cover"
-                        style="object-position: center; -webkit-filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7)); filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));"
-                        alt="Slide 3">
+                    <img loading="lazy" src="{{ asset('static/img/backgrounds/hero-section-3.jpg') }}"
+                        class="d-block w-100 h-100 object-fit-cover" style="object-position: center;;" alt="Slide 3">
                 </div>
             </div>
         </div>
@@ -41,8 +37,8 @@
                     <h1 class="display-4 fw-bold text-center">Yayasan <span class="text-success">Agape</span> Hijau Abadi
                     </h1>
                     <p class="fs-5 text-light">Serving with Christ's love through free education, scholarship programs, and
-                        social and disaster relief. With the support of our partners and donors, including those from Korea,
-                        we are here to bring light and hope.</p>
+                        social and disaster relief. With the support of our partners and donors, both from Indonesia and
+                        abroad, we are here to bring light and hope.</p>
                 </div>
             </div>
         </div>
@@ -66,7 +62,7 @@
                         service in response to disasters. With the support of partners from within and outside the country,
                         we continue to bring hope to the community.</p>
                     <div class="d-flex align-items-center gap-2">
-                        <a href="#" class="btn btn-success">Learn More</a>
+                        <a href="#vision-mission" class="btn btn-success">Vision & Mission</a>
                         <a href="#" class="btn btn-outline-success">Contact Us</a>
                     </div>
                 </div>
@@ -79,8 +75,8 @@
             <div class="row">
                 <div class="col-12">
                     <img loading="lazy" class="img-fluid w-100 rounded shadown-sm object-fit-cover"
-                        style="max-height: 500px;"
-                        src="https://sph.edu/wp-content/uploads/2022/02/sph-studentLife-studentLeadership-top-v1.jpg"
+                        style="max-height: 500px; object-position: bottom;"
+                        src="{{ asset("static/img/backgrounds/image-1.jpg") }}"
                         alt="">
                 </div>
             </div>
@@ -238,10 +234,12 @@
             });
         }
 
-        document.addEventListener("DOMContentLoaded", async function () {
+        document.addEventListener("DOMContentLoaded", async function() {
             try {
                 const newestNews = await axios.get('/api/master-data/news?limit=9', {
-                    headers: { 'Accept': 'application/json' }
+                    headers: {
+                        'Accept': 'application/json'
+                    }
                 });
                 const newsCarousel = document.getElementById('news-carousel');
                 console.log("Response:", newestNews.data);
@@ -279,16 +277,24 @@
                         autoplay: true,
                         autoplayTimeout: 2500,
                         responsive: {
-                            0: { items: 1 },
-                            576: { items: 2 },
-                            992: { items: 3 }
+                            0: {
+                                items: 1
+                            },
+                            576: {
+                                items: 2
+                            },
+                            992: {
+                                items: 3
+                            }
                         }
                     });
 
                     // panggil equalizer setelah carousel selesai inisialisasi
-                    $("#news-carousel").on('initialized.owl.carousel resized.owl.carousel refreshed.owl.carousel', function () {
-                        setTimeout(equalizeCardHeights, 100);
-                    });
+                    $("#news-carousel").on(
+                        'initialized.owl.carousel resized.owl.carousel refreshed.owl.carousel',
+                        function() {
+                            setTimeout(equalizeCardHeights, 100);
+                        });
 
                 } else {
                     console.warn("Data kosong atau format tidak sesuai:", newestNews.data);
@@ -298,7 +304,7 @@
             }
         });
         // Gallery Carousel
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             $("#gallery-carousel").owlCarousel({
                 loop: true,
                 margin: 15,
@@ -307,9 +313,15 @@
                 autoplay: true,
                 autoplayTimeout: 2500,
                 responsive: {
-                0: { items: 1 },
-                576: { items: 2 },
-                992: { items: 3 }
+                    0: {
+                        items: 1
+                    },
+                    576: {
+                        items: 2
+                    },
+                    992: {
+                        items: 3
+                    }
                 }
             });
         });
@@ -320,15 +332,18 @@
                 height: 480px;
             }
         }
+
         #gallery .owl-carousel .item img {
             width: 100%;
             height: 400px;
             object-fit: cover;
             object-position: center;
         }
+
         .card .text-muted {
             display: -webkit-box;
-            -webkit-line-clamp: 3;   /* tampilkan max 3 baris */
+            -webkit-line-clamp: 3;
+            /* tampilkan max 3 baris */
             -webkit-box-orient: vertical;
             overflow: hidden;
         }

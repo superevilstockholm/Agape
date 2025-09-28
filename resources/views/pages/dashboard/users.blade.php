@@ -81,11 +81,11 @@
         </div>
     </div>
     {{-- Modal Show User --}}
-    @include('components.users.show')
+    <x-users.show />
     {{-- Modal Create User --}}
-    @include('components.users.create')
+    <x-users.create />
     {{-- Modal Edit User --}}
-    @include('components.users.edit')
+    <x-users.edit />
     <script>
         $(document).ready(function() {
             const tbody = $('#users');

@@ -15,7 +15,7 @@
                                 alt="Preview" class="w-100 h-100 object-fit-cover rounded shadow-sm border">
                             <input type="file" id="news-image" name="image" accept="image/*"
                                 class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer"
-                                style="cursor: pointer;">
+                                style="cursor: pointer;" required>
                         </div>
                     </div>
                     <div class="mb-3">

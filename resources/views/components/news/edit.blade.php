@@ -15,7 +15,7 @@
                             <img id="edit-news-image-preview" src="{{ asset('static/img/no_image_placeholder.png') }}"
                                 alt="Preview" class="w-100 h-100 object-fit-cover rounded shadow-sm border">
                             <input type="file" id="edit-news-image" name="image" accept="image/*"
-                                class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer">
+                                class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" required>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="edit-news-content" class="form-label">Content</label>
-                        <textarea id="edit-news-content-editor" name="content"></textarea>
+                        <textarea id="edit-news-content-editor" name="content" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-success text-white">Update</button>
                 </form>

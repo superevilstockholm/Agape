@@ -34,7 +34,7 @@
         </div>
         <div class="col-sm-12 col-md-2">
             <div class="d-grid">
-                <button id="searchButton" class="btn btn-success h-100"> Search</button>
+                <button id="searchButton" class="btn btn-success h-100">Search</button>
             </div>
         </div>
     </div>
@@ -42,11 +42,11 @@
         <div class="col-md-3 col-12">
             <div class="form-group form-focus select-focus">
                 <select id="limit" class="select floating">
-                    <option value="10">10 data</option>
-                    <option value="25">25 data</option>
-                    <option value="50">50 data</option>
-                    <option value="75">75 data</option>
-                    <option value="100">100 data</option>
+                    <option value="10">10 items</option>
+                    <option value="25">25 items</option>
+                    <option value="50">50 items</option>
+                    <option value="75">75 items</option>
+                    <option value="100">100 items</option>
                     <option value="all">All</option>
                 </select>
                 <label for="limit" class="focus-label">Show</label>
@@ -88,6 +88,7 @@
     <x-users.edit />
     <script>
         $(document).ready(function() {
+            // Index
             const tbody = $('#users');
             const pagination = $('#pagination');
             const limitSelect = $('#limit');
@@ -144,7 +145,7 @@
                     let totalItems = (limit !== 'all') ? data.total : data.length;
                     if (limit !== 'all') data = data.data;
                     if (!data.length) {
-                        tbody.html('<tr><td colspan="7" class="text-center">Tidak ada user</td></tr>');
+                        tbody.html('<tr><td colspan="7" class="text-center">No users available</td></tr>');
                         return;
                     }
                     const startIndex = (limit === 'all') ? 1 : (page - 1) * parseInt(limit) + 1;
@@ -179,8 +180,8 @@
                     }
                 } catch (err) {
                     tbody.html(
-                        '<tr><td colspan="7" class="text-center text-danger">Gagal memuat data</td></tr>');
-                    console.error(err);
+                        '<tr><td colspan="7" class="text-center text-danger">Failed to display users list</td></tr>');
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to display users list', 'error');
                 }
             }
             $('#searchButton').on('click', function(e) {
@@ -242,34 +243,37 @@
                 try {
                     let form = $(this)[0];
                     let formData = new FormData(form);
-                    await axios.post('/api/master-data/users', formData, {
+                    const response = await axios.post('/api/master-data/users', formData, {
                         headers: {
                             'Accept': 'application/json',
                             'Authorization': 'Bearer ' + getCookie('auth_token'),
                             'Content-Type': 'multipart/form-data'
                         }
                     });
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'User Created!',
-                        text: 'User berhasil ditambahkan.',
-                        timer: 1500,
-                        showConfirmButton: false
-                    });
+                    if (response.data.status === true) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.data.message ?? 'User created successfully',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Failed',
+                            text: response.data.message ?? 'Failed to create user'
+                        });
+                    }
                     $('#createUserForm')[0].reset();
                     $('#profile-picture-preview').attr('src', "{{ asset('static/img/no_image_placeholder.png') }}");
                     $('#userCreateModal').modal('hide');
                     await loadUsers(currentPage, currentLimit);
                 } catch (err) {
-                    console.error(err);
-                    let message = 'Terjadi kesalahan.';
-                    if (err.response && err.response.data && err.response.data.message) {
-                        message = err.response.data.message;
-                    }
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal!',
-                        text: message
+                        title: 'Failed',
+                        text: err.response.data.message ?? 'Failed to create user'
                     });
                 }
             });
@@ -294,8 +298,8 @@
                     console.error(err);
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal!',
-                        text: 'Tidak dapat memuat data user.'
+                        title: 'Failed',
+                        text: err.response.data.message ?? 'Failed to edit user'
                     });
                 }
             });
@@ -323,22 +327,18 @@
                     });
                     Swal.fire({
                         icon: 'success',
-                        title: 'User Updated!',
-                        text: 'User berhasil diperbarui.',
+                        title: 'Success',
+                        text: 'User updated successfully',
                         timer: 1500,
                         showConfirmButton: false
                     });
                     $('#userEditModal').modal('hide');
                     loadUsers(currentPage, currentLimit);
                 } catch (err) {
-                    let message = 'Terjadi kesalahan.';
-                    if (err.response?.data?.message) {
-                        message = err.response.data.message;
-                    }
                     Swal.fire({
                         icon: 'error',
-                        title: 'Gagal!',
-                        text: message
+                        title: 'Failed',
+                        text: err.response.data.message ?? 'Failed to update user'
                     });
                 }
             });
@@ -346,14 +346,14 @@
             $(document).on('click', '.delete-users', async function () {
                 const id = $(this).data('id');
                 const result = await Swal.fire({
-                    title: 'Apakah kamu yakin?',
-                    text: "User akan dihapus permanen!",
+                    title: 'Delete User',
+                    text: 'Are you sure you want to delete this user?',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Hapus!',
-                    cancelButtonText: 'Batal'
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No'
                 });
                 if (result.isConfirmed) {
                     try {
@@ -365,8 +365,8 @@
                         });
                         Swal.fire({
                             icon: 'success',
-                            title: 'Berhasil!',
-                            text: 'User berhasil dihapus.',
+                            title: 'Success',
+                            text: 'User deleted successfully',
                             timer: 1500,
                             showConfirmButton: false
                         });
@@ -375,8 +375,8 @@
                         console.error(err);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Gagal!',
-                            text: 'Terjadi kesalahan saat menghapus user.'
+                            title: 'Failed',
+                            text: 'Failed to delete user'
                         });
                     }
                 }

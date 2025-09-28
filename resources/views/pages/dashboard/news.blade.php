@@ -44,11 +44,11 @@
         <div class="col-md-3 col-12">
             <div class="form-group form-focus select-focus">
                 <select id="limit" class="select floating">
-                    <option value="10">10 data</option>
-                    <option value="25">25 data</option>
-                    <option value="50">50 data</option>
-                    <option value="75">75 data</option>
-                    <option value="100">100 data</option>
+                    <option value="10">10 items</option>
+                    <option value="25">25 items</option>
+                    <option value="50">50 items</option>
+                    <option value="75">75 items</option>
+                    <option value="100">100 items</option>
                     <option value="all">All</option>
                 </select>
                 <label for="limit" class="focus-label">Show</label>
@@ -110,70 +110,7 @@
                 document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
                 document.activeElement.blur();
             });
-            async function loadUsers() {
-                try {
-                    const res = await axios.get('/api/master-data/users?limit=all', {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': 'Bearer ' + getCookie('auth_token')
-                        }
-                    });
-                    const select = document.getElementById('news-user');
-                    select.innerHTML = '<option value="">-- Select Author --</option>';
-                    if (res.data.status && res.data.data.length) {
-                        res.data.data.forEach(user => {
-                            const opt = document.createElement('option');
-                            opt.value = user.id;
-                            opt.textContent = user.name;
-                            select.appendChild(opt);
-                        });
-                    }
-                } catch (err) {
-                    Swal.fire('Failed', err.response.data.message ?? 'Failed to load users', 'error');
-                }
-            }
-            document.getElementById('newsCreateModal').addEventListener('shown.bs.modal', function() {
-                document.getElementById('news-title').focus();
-                loadUsers();
-            });
-            newsImageInput.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    previewImage.src = URL.createObjectURL(file);
-                } else {
-                    previewImage.src = placeholderImage;
-                }
-            });
-            createNewsForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                try {
-                    const formData = new FormData();
-                    formData.append('title', document.getElementById('news-title').value);
-                    formData.append('content', editorInstance.getData());
-                    formData.append('image', newsImageInput.files[0]);
-                    formData.append('user_id', document.getElementById('news-user').value);
-                    const response = await axios.post('/api/master-data/news', formData, {
-                        headers: {
-                            'Accept': 'application/json',
-                            'Authorization': `Bearer ${getCookie('auth_token')}`
-                        }
-                    });
-                    if (response.data.status === true) {
-                        $('#newsCreateModal').modal('hide');
-                        createNewsForm.reset();
-                        editorInstance.setData('');
-                        previewImage.src = placeholderImage;
-                        loadNews(currentPage, currentLimit);
-                        Swal.fire('Success', response.data.message ?? 'News created successfully!', 'success');
-                    }
-                } catch (error) {
-                    Swal.fire('Failed', error.response.data.message ?? 'Failed to create news', 'error');
-                }
-            });
-            $('.select.floating').select2({
-                minimumResultsForSearch: -1,
-                width: '100%'
-            });
+            // Index
             const tbody = $('#news');
             const pagination = $('#pagination');
             const limitSelect = $('#limit');
@@ -268,6 +205,18 @@
                     Swal.fire('Failed', err.response.data.message ?? 'Failed to display news list', 'error');
                 }
             }
+            $('#searchButton').on('click', function(e) {
+                e.preventDefault();
+                currentPage = 1;
+                loadNews(currentPage, currentLimit);
+            });
+            loadNews(currentPage, currentLimit);
+            $('#limit').on('change', function() {
+                currentLimit = this.value;
+                currentPage = 1;
+                loadNews(currentPage, currentLimit);
+            });
+            // Show
             $(document).on('click', '.show-news', async function() {
                 const id = $(this).data('id');
                 $('#newsShowModalLabel').text('Loading...');
@@ -298,45 +247,72 @@
                     Swal.fire('Failed', err.response.data.message ?? 'Failed to display news details', 'error');
                 }
             });
-            $(document).on('click', '.delete-news', async function() {
-                const id = $(this).data('id');
-                const result = await Swal.fire({
-                    title: 'Delete News',
-                    text: 'Are you sure you want to delete this news?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes',
-                    cancelButtonText: 'No',
-                    reverseButtons: true
-                });
-                if (!result.isConfirmed) return;
-                axios.delete(`/api/master-data/news/${id}`, {
+            // Create
+            async function loadUsers() {
+                try {
+                    const res = await axios.get('/api/master-data/users?limit=all', {
                         headers: {
                             'Accept': 'application/json',
                             'Authorization': 'Bearer ' + getCookie('auth_token')
                         }
-                    })
-                    .then(res => {
-                        if (res.data.status) {
-                            Swal.fire('Success', res.data.message ?? 'News deleted successfully', 'success');
-                            loadNews(currentPage, currentLimit);
-                        }
-                    })
-                    .catch(err => {
-                        Swal.fire('Failed', err.response.data.message ?? 'Failed to delete news', 'error');
                     });
+                    const select = document.getElementById('news-user');
+                    select.innerHTML = '<option value="">-- Select Author --</option>';
+                    if (res.data.status && res.data.data.length) {
+                        res.data.data.forEach(user => {
+                            const opt = document.createElement('option');
+                            opt.value = user.id;
+                            opt.textContent = user.name;
+                            select.appendChild(opt);
+                        });
+                    }
+                } catch (err) {
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to load users', 'error');
+                }
+            }
+            document.getElementById('newsCreateModal').addEventListener('shown.bs.modal', function() {
+                document.getElementById('news-title').focus();
+                loadUsers();
             });
-            $('#searchButton').on('click', function(e) {
+            newsImageInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    previewImage.src = URL.createObjectURL(file);
+                } else {
+                    previewImage.src = placeholderImage;
+                }
+            });
+            createNewsForm.addEventListener('submit', async function(e) {
                 e.preventDefault();
-                currentPage = 1;
-                loadNews(currentPage, currentLimit);
+                try {
+                    const formData = new FormData();
+                    formData.append('title', document.getElementById('news-title').value);
+                    formData.append('content', editorInstance.getData());
+                    formData.append('image', newsImageInput.files[0]);
+                    formData.append('user_id', document.getElementById('news-user').value);
+                    const response = await axios.post('/api/master-data/news', formData, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${getCookie('auth_token')}`
+                        }
+                    });
+                    if (response.data.status === true) {
+                        $('#newsCreateModal').modal('hide');
+                        createNewsForm.reset();
+                        editorInstance.setData('');
+                        previewImage.src = placeholderImage;
+                        loadNews(currentPage, currentLimit);
+                        Swal.fire('Success', response.data.message ?? 'News created successfully!', 'success');
+                    }
+                } catch (error) {
+                    Swal.fire('Failed', error.response.data.message ?? 'Failed to create news', 'error');
+                }
             });
-            loadNews(currentPage, currentLimit);
-            $('#limit').on('change', function() {
-                currentLimit = this.value;
-                currentPage = 1;
-                loadNews(currentPage, currentLimit);
+            $('.select.floating').select2({
+                minimumResultsForSearch: -1,
+                width: '100%'
             });
+            // Edit
             let editEditorInstance;
             ClassicEditor
                 .create(document.querySelector('#edit-news-content-editor'))
@@ -425,6 +401,35 @@
                 } catch (error) {
                     Swal.fire('Failed', err.response.data.message ?? 'Failed to update news', 'error');
                 }
+            });
+            // Delete
+            $(document).on('click', '.delete-news', async function() {
+                const id = $(this).data('id');
+                const result = await Swal.fire({
+                    title: 'Delete News',
+                    text: 'Are you sure you want to delete this news?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    reverseButtons: true
+                });
+                if (!result.isConfirmed) return;
+                axios.delete(`/api/master-data/news/${id}`, {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Authorization': 'Bearer ' + getCookie('auth_token')
+                        }
+                    })
+                    .then(res => {
+                        if (res.data.status) {
+                            Swal.fire('Success', res.data.message ?? 'News deleted successfully', 'success');
+                            loadNews(currentPage, currentLimit);
+                        }
+                    })
+                    .catch(err => {
+                        Swal.fire('Failed', err.response.data.message ?? 'Failed to delete news', 'error');
+                    });
             });
         });
     </script>

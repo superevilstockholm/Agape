@@ -85,22 +85,12 @@
                     });
                 }
             } catch (error) {
-                if (error.response?.status === 401) {
-                    Swal.fire({
-                        title: 'Unauthorized',
-                        text: error.response.data.message,
-                        icon: 'error',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'An error occurred while logging in',
-                        icon: 'error',
-                        showConfirmButton: true
-                    });
-                }
+                Swal.fire({
+                    title: 'Error',
+                    text: error.response.data.message ?? 'An error occurred while logging in',
+                    icon: 'error',
+                    showConfirmButton: true
+                });
             } finally {
                 loginBtn.disabled = false;
             }

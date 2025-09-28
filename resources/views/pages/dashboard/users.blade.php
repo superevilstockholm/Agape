@@ -1,4 +1,4 @@
-@extends('layouts.Dashboard')
+@extends('layouts.dashboard')
 @section('title', 'Dashboard - Users')
 @section('content')
     <div class="row mb-3 justify-content-md-between align-items-md-center">

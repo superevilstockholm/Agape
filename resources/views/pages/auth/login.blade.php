@@ -1,21 +1,28 @@
 @extends('layouts.base')
 @section('title', 'Login - Yayasan Agape Hijau Abadi')
 @section('content')
+    <x-loading-overlay-component />
     <script>
+        showLoading();
         document.addEventListener('DOMContentLoaded', async function() {
             const token = getCookie('auth_token');
-            await axios.get('/api/is-logged-in', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then((response) => {
+            try {
+                const response = await axios.get('/api/is-logged-in', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (response.data.status === true) {
                     window.location.href = '/dashboard';
                 }
-            });
-        })
+            } catch (error) {
+                console.error(error);
+            } finally {
+                hideLoading();
+            }
+        });
     </script>
-    <div class="container vh-100 py-0 my-0">
+    <div class="container vh-100 py-0 my-0" id="login-layout">
         <div class="row w-100 h-100 p-0 m-0 align-items-center justify-content-center">
             <div class="col-lg-5 col-md-6 col-12">
                 <div class="card border-0 shadow-sm py-0 my-4">

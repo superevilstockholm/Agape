@@ -2,8 +2,8 @@
 @section('layout')
     {{-- Main Wrapper --}}
     <div class="main-wrapper">
-        @include('components.topbar')
-        @include('components.sidebar')
+        <x-topbar-component />
+        <x-sidebar-component />
         <main>
             <!-- Page Wrapper -->
             <div class="page-wrapper">

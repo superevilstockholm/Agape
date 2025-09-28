@@ -79,11 +79,8 @@ class NewsController extends Controller
                 'content' => 'required|string',
                 'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'user_id' => 'required|exists:users,id',
-                'slug' => 'nullable|string|max:255',
             ]);
-            if (empty($validated['slug'])) {
-                $validated['slug'] = $this->generateSlug($validated['title']);
-            }
+            $validated['slug'] = $this->generateSlug($validated['title']);
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('news', 'public');
                 $validated['image_path'] = $path;
@@ -137,12 +134,9 @@ class NewsController extends Controller
                 'title' => 'sometimes|string|max:255',
                 'content' => 'sometimes|string',
                 'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'user_id' => 'sometimes|exists:users,id',
-                'slug' => 'nullable|string|max:255',
+                'user_id' => 'sometimes|exists:users,id'
             ]);
-            if ($request->filled('title') && !$request->filled('slug')) {
-                $validated['slug'] = $this->generateSlug($validated['title'], $news->id);
-            }
+            $validated['slug'] = $this->generateSlug($validated['title'], $news->id);
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('news', 'public');
                 $validated['image_path'] = $path;

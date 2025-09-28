@@ -36,7 +36,7 @@
         </div>
         <div class="col-sm-12 col-md-2">
             <div class="d-grid">
-                <button id="searchButton" class="btn btn-success h-100"> Search</button>
+                <button id="searchButton" class="btn btn-success h-100">Search</button>
             </div>
         </div>
     </div>
@@ -82,9 +82,9 @@
             </nav>
         </div>
     </div>
-    <!-- Modal Detail Berita -->
+    <!-- Modal Show News -->
     <x-news.show />
-    <!-- Modal Create Berita -->
+    <!-- Modal Create News -->
     <x-news.create />
     <!-- Modal Edit News -->
     <x-news.edit />
@@ -129,7 +129,7 @@
                         });
                     }
                 } catch (err) {
-                    console.error('Gagal memuat user', err);
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to load users', 'error');
                 }
             }
             document.getElementById('newsCreateModal').addEventListener('shown.bs.modal', function() {
@@ -164,10 +164,10 @@
                         editorInstance.setData('');
                         previewImage.src = placeholderImage;
                         loadNews(currentPage, currentLimit);
-                        Swal.fire('Berhasil', 'Berita berhasil dibuat!', 'success');
+                        Swal.fire('Success', response.data.message ?? 'News created successfully!', 'success');
                     }
                 } catch (error) {
-                    Swal.fire('Gagal', 'Terjadi kesalahan saat membuat berita', 'error');
+                    Swal.fire('Failed', error.response.data.message ?? 'Failed to create news', 'error');
                 }
             });
             $('.select.floating').select2({
@@ -229,7 +229,7 @@
                     let totalItems = (limit !== 'all') ? data.total : data.length;
                     if (limit !== 'all') data = data.data;
                     if (!data.length) {
-                        tbody.html('<tr><td colspan="7" class="text-center">Tidak ada berita</td></tr>');
+                        tbody.html('<tr><td colspan="7" class="text-center">No news available</td></tr>');
                         return;
                     }
                     const startIndex = (limit === 'all') ? 1 : (page - 1) * parseInt(limit) + 1;
@@ -264,8 +264,8 @@
                     }
                 } catch (err) {
                     tbody.html(
-                        '<tr><td colspan="7" class="text-center text-danger">Gagal memuat data</td></tr>');
-                    console.error(err);
+                        '<tr><td colspan="7" class="text-center text-danger">Failed to display news list</td></tr>');
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to display news list', 'error');
                 }
             }
             $(document).on('click', '.show-news', async function() {
@@ -294,19 +294,19 @@
                         '{{ asset('static/img/no_image_placeholder.png') }}');
                 } catch (err) {
                     $('#newsContent').html(
-                        '<p class="text-danger text-center">Gagal memuat detail berita</p>');
-                    console.error(err);
+                        '<p class="text-danger text-center">Failed to display news details</p>');
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to display news details', 'error');
                 }
             });
             $(document).on('click', '.delete-news', async function() {
                 const id = $(this).data('id');
                 const result = await Swal.fire({
-                    title: 'Hapus berita',
-                    text: 'Anda yakin ingin menghapus berita ini?',
+                    title: 'Delete News',
+                    text: 'Are you sure you want to delete this news?',
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Ya',
-                    cancelButtonText: 'Tidak',
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
                     reverseButtons: true
                 });
                 if (!result.isConfirmed) return;
@@ -318,13 +318,12 @@
                     })
                     .then(res => {
                         if (res.data.status) {
-                            Swal.fire('Berhasil', res.data.message, 'success');
+                            Swal.fire('Success', res.data.message ?? 'News deleted successfully', 'success');
                             loadNews(currentPage, currentLimit);
                         }
                     })
                     .catch(err => {
-                        Swal.fire('Gagal', 'Gagal menghapus berita', 'error');
-                        console.error(err);
+                        Swal.fire('Failed', err.response.data.message ?? 'Failed to delete news', 'error');
                     });
             });
             $('#searchButton').on('click', function(e) {
@@ -373,8 +372,7 @@
                     await loadUsersEdit(news.user?.id);
                     $('#newsEditModal').modal('show');
                 } catch (err) {
-                    console.error('Gagal memuat berita', err);
-                    Swal.fire('Gagal', 'Tidak dapat memuat data berita', 'error');
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to load news data', 'error');
                 }
             });
             async function loadUsersEdit(selectedId = null) {
@@ -397,7 +395,7 @@
                         });
                     }
                 } catch (err) {
-                    console.error('Gagal memuat user', err);
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to load users list', 'error');
                 }
             }
             editNewsForm.addEventListener('submit', async function (e) {
@@ -421,12 +419,11 @@
                     });
                     if (response.data.status === true) {
                         $('#newsEditModal').modal('hide');
-                        Swal.fire('Berhasil', 'Berita berhasil diperbarui!', 'success');
+                        Swal.fire('Success', response.data.message ?? 'News updated successfully!', 'success');
                         loadNews(currentPage, currentLimit);
                     }
                 } catch (error) {
-                    console.error(error);
-                    Swal.fire('Gagal', 'Terjadi kesalahan saat mengupdate berita', 'error');
+                    Swal.fire('Failed', err.response.data.message ?? 'Failed to update news', 'error');
                 }
             });
         });

@@ -1,13 +1,16 @@
 @extends('layouts.dashboard')
 @section('title', 'Dashboard - Profile')
 @section('content')
+    <script>
+        showLoading();
+    </script>
     <div class="row justify-content-center my-4">
         <div class="col-md-6 col-12 text-center">
             <a href="/dashboard/users">
                 <img id="profile-picture" src="{{ asset('static/img/no_image_placeholder.png') }}"
                     class="rounded-circle mb-3 border border-2 border-light shadow" width="180" height="180" alt="Profile Picture">
                 <h4 id="profile-name" class="mb-1 text-success fw-semibold">Loading...</h4>
-                <p id="profile-email" class="text-muted">Loading...</p>
+                <p id="profile-email" class="text-muted mb-0">Loading...</p>
             </a>
         </div>
     </div>
@@ -70,6 +73,8 @@
                 document.getElementById('profile-name').textContent = 'Failed to load profile';
                 document.getElementById('profile-email').textContent = '';
                 newsContainer.innerHTML = '<p class="text-center text-danger">Failed to load news</p>';
+            } finally {
+                hideLoading();
             }
         });
     </script>

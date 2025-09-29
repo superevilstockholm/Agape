@@ -9,10 +9,13 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MasterData\UserController;
 use App\Http\Controllers\MasterData\NewsController;
 
+// Dashboard
+use App\Http\Controllers\DashboardController;
+
 // Auth
 Route::post('login', [AuthController::class, 'login'])->middleware([
     'throttle:5,1'
-]); 
+]);
 
 // Public
 Route::prefix('master-data')->group(function () {
@@ -26,6 +29,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         // Auth
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('is-logged-in', [AuthController::class, 'isLoggedIn']);
+        // Dashboard
+        Route::get('dashboard-data', [DashboardController::class, 'getDashboardData']);
         // Master Data
         Route::prefix('master-data')->group(function () {
             // Users

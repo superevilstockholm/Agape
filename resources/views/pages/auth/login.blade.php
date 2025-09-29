@@ -1,7 +1,6 @@
 @extends('layouts.base')
 @section('title', 'Login - Yayasan Agape Hijau Abadi')
 @section('content')
-    <x-loading-overlay-component />
     <script>
         showLoading();
         document.addEventListener('DOMContentLoaded', async function() {

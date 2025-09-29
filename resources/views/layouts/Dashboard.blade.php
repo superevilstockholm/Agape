@@ -1,5 +1,6 @@
 @extends('App')
 @section('layout')
+    <x-loading-overlay-component />
     {{-- Main Wrapper --}}
     <div class="main-wrapper">
         <x-topbar-component />

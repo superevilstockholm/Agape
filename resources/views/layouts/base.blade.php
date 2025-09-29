@@ -1,5 +1,6 @@
 @extends('App')
 @section('layout')
+<x-loading-overlay-component />
 @if (data_get($meta, 'show_navbar', true))
     <x-navbar-component />
 @endif

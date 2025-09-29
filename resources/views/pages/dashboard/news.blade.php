@@ -1,6 +1,9 @@
 @extends('layouts.dashboard')
 @section('title', 'Dashboard - News')
 @section('content')
+    <script>
+        showLoading();
+    </script>
     <div class="row mb-3 justify-content-md-between align-items-md-center">
         <div class="col-md-6 col-12">
             <h3 class="page-title mb-2 mb-md-1 fw-semibold">News Data</h3>
@@ -203,6 +206,8 @@
                     tbody.html(
                         '<tr><td colspan="7" class="text-center text-danger">Failed to display news list</td></tr>');
                     Swal.fire('Failed', err.response.data.message ?? 'Failed to display news list', 'error');
+                } finally {
+                    hideLoading();
                 }
             }
             $('#searchButton').on('click', function(e) {

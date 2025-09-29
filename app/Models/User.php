@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\News;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -56,5 +58,10 @@ class User extends Authenticatable
         return $this->profile_picture
             ? Storage::url($this->profile_picture)
             : asset('static/img/no_image_placeholder.png');
+    }
+
+    public function news()
+    {
+        return $this->hasMany(News::class, 'user_id', 'id');
     }
 }

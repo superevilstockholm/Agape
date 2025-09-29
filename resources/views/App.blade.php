@@ -74,6 +74,8 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     {{-- CKEditor --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    {{-- Chart JS --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @yield('layout')
     {{-- Bootstrap --}}
     <script src="{{ asset('static/bootstrap/js/bootstrap.bundle.min.js') }}"></script>

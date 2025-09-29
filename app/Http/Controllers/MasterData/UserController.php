@@ -103,10 +103,16 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         try {
+            if ($request->user()->id !== $user->id) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Unauthorized: You can only update your own profile.'
+                ], 403);
+            }
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
                 'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
-                'password' => 'sometimes|string|min:8|max:255',
+                'password' => 'nullable|string|min:8|max:255',
                 'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
             if ($request->hasFile('profile_picture')) {
@@ -161,10 +167,16 @@ class UserController extends Controller
     public function userProfile(Request $request): JsonResponse
     {
         try {
+            $user = $request->user()->load(['news' => function($query) {
+                $query->orderBy('created_at', 'desc')->take(8);
+            }]);
             return response()->json([
                 'status' => true,
                 'message' => 'Successfully get user profile',
-                'data' => $request->user()->only(['name', 'email', 'profile_picture', 'url_profile_picture'])
+                'data' => [
+                    'user' => $user->only(['name', 'email', 'profile_picture', 'url_profile_picture']),
+                    'news' => $user->news
+                ]
             ]);
         } catch (Exception $e) {
             return response()->json([
